@@ -121,7 +121,7 @@ function movie() {
 		movieName = 'Mr Nobody';
 	}
 
-	var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&r=json";
+	var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&tomatoes=true&r=json";
 
 	console.log(queryUrl);
 
