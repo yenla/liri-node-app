@@ -14,29 +14,30 @@ var action = process.argv[2];
 
 
 
+function run(curAction){
+	switch (curAction) {
+		case "my-tweets":
+		tweets();
+		break;
 
-switch (action) {
-	case "my-tweets":
-	tweets();
-	break;
+		case "spotify-this-song":
+		spotifySong();
+		break;
 
-	case "spotify-this-song":
-	spotifySong();
-	break;
+		case "movie-this":
+		movie();
+		break;
 
-	case "movie-this":
-	movie();
-	break;
-
-	case "do-what-it-says":
-	doThis();
-	break;
+		case "do-what-it-says":
+		doThis();
+		break;
+	}
 }
+run(action);
 
 function tweets(){
 
 var client = new twitter(keys.twitterKeys);
-	// console.log('tweets ran');
 
 	client.get('search/tweets', {q: 'anch0raway' }, function(error, tweets, response) {
   		if (!error) {
@@ -57,21 +58,18 @@ var client = new twitter(keys.twitterKeys);
 
 function spotifySong() {
 
-
-	var songData = process.argv.splice(3).join(" ");
-
+	// it will execute user input of argv[3] or it will execute the sign if there is no argv[3]
+	var songData = process.argv[3] || "The Sign Ace of Base";
 
 	spotify.search({ type: 'track', query: songData }, function(err, data) {
     	if (err) {
         	console.log('Error occurred: ' + err);
         	// return;
     	}
-
     	// console.log(data);
     	// console.log(data.tracks.items);
 
     	for (var i = 0; i < 1; i++){
-    		// console.log(data.tracks.items[i]);
 
     		// artist's name
     		console.log("");
@@ -80,7 +78,7 @@ function spotifySong() {
     			console.log(el.name);
     		});
 
-    		// song
+    		// song name
     		console.log("");
     		console.log('Song Name:');
     		console.log(data.tracks.items[i].name);
@@ -89,12 +87,12 @@ function spotifySong() {
     		console.log("");
     		console.log('Album Name: ' + data.tracks.items[i].album.name);
 
-    		// url
+    		// track 30 seconds preview url
     		console.log("");
     		console.log('Preview of the song:');
     		console.log(data.tracks.items[i].preview_url);
 
-
+    		// album image url
     		console.log("");
     		console.log('Album URL:');
     		console.log(data.tracks.items[i].album.external_urls.spotify);
@@ -105,29 +103,11 @@ function spotifySong() {
     });
 }
 
-
 // ===* MOVIE SECTION *=== //
-
-
 
 function movie() {
 
-
-	// process.argv returns an array
-	// the first two elements are always present
-
-	// in the case that an argument IS passed
-	// process.argv[2] is defined
-	// process.argv.length = 3
-
-
-	// in the case that an argument is NOT passed
-	// process.argv.length = 2
-	// process.argv[2] is not defined
-
 	var movieName = '';
-	// var dataArr = process.argv;
-
 
 	if(process.argv.length >= 4){
 		for (var i = 3; i < dataArr.length; i++){
@@ -140,10 +120,6 @@ function movie() {
 	} else {
 		movieName = 'Mr Nobody';
 	}
-
-		
-	// var request = require("request");
-
 
 	var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&r=json";
 
@@ -177,50 +153,19 @@ function movie() {
 
 }
 
+// ===* DO WHAT IT SAY REQUEST SECTION *=== //
 
 function doThis() {
 
-	// if (splitData.length == 2) {
-    // var fs = require("fs");
     fs.readFile("random.txt", "utf8", function(error, data) {
 	    var splitData = data.split(",");
-	    // console.log(splitData); // Check to see what's split. 
 	    var inputOne = splitData[0];
-	    var inputTwo = splitData[1];
-	    if (inputOne == "spotify-this-song") {
-	        spotifySong(inputTwo); //spotifySongSearch function runs here
-	    } else if (inputOne == "my-tweets") {
-	        tweets(); // tweetit function runs here (no process.argv[3])
-	    } else if (inputOne == "movie-this") {
-	        movie(inputTwo); //movieSearch function runs here
-	    }
+	    
+	    process.argv[3] = splitData[1];
+
+	    run(inputOne);
+
+	    
+
 	});
 }
-  // fs.readFile("random.txt", "utf8", function(error, data) {
-  //   console.log(data);
-  //   var dataSplit = data.split(',');
-
-  //   if (dataSplit.length == 2) {
-  //   	action(dataSplit[0], dataSplit[1]);
-
-  //   } else if (dataSplit.length == 1) {
-  //   	action(dataSplit[0]);
-
-  //   }
-
-
-  // });
-// }
-
-
-
-
-// var dataArr = data.split(',')
-
-//     if (dataArr.length == 2) {
-//       pick(dataArr[0], dataArr[1]);
-//     } else if (dataArr.length == 1) {
-//       pick(dataArr[0]);
-//     }
-
-
