@@ -3,11 +3,6 @@
 HW - Liri Bot (Language Interpretation and Recognition Interface)
 
 
-Live Link 
-
-https://yenla.github.io/liri-node-app/
-
-
 Summary
 
 • This homework assignment require me to create a language interpretation and recognition interface. This application will take in the user command through the command line node app that takes in parameters and gives the user back the data they requested.
